@@ -1,7 +1,6 @@
 const express = require('express')
 const app = express()
 const morgan = require('morgan')
-const PORT = process.env.PORT || 8080
 const path = require('path')
 
 const addMiddleware = () => {
@@ -18,6 +17,8 @@ const addMiddleware = () => {
     res.sendFile(path.join(__dirname, '..', 'public/index.html'))
   })
 
+  // routes
+  app.use('/users', require('./api/users'))
   // error handling
   app.use((err, req, res, next) => {
     console.error(err)

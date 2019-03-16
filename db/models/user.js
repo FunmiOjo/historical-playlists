@@ -24,4 +24,9 @@ User.findBySpotifyId = function(spotifyId) {
     },
   })
 }
+
+User.getAllUsers = function() {
+  return User.findAll()
+}
+
 module.exports = User
