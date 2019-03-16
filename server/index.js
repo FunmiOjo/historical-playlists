@@ -11,14 +11,15 @@ const addMiddleware = () => {
   app.use(express.json())
   app.use(express.urlencoded({ extended: true }))
 
+  // routes
+  app.use('/api', require('./api'))
+
   // static files
   app.use(express.static(path.join(__dirname, '..', 'public')))
   app.use('*', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public/index.html'))
   })
 
-  // routes
-  app.use('/users', require('./api/users'))
   // error handling
   app.use((err, req, res, next) => {
     console.error(err)
