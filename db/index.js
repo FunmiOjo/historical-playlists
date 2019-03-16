@@ -4,5 +4,4 @@ const db = new Sequelize(
   { logging: false }
 )
 
-require('./models')
 module.exports = db
