@@ -8,6 +8,18 @@ const { getUser } = require('../utils')
 describe.only('User routes', () => {
   beforeEach(() => db.sync({ force: true }))
 
+  describe('GET api/users/:spotifyId', () => {
+    it('returns the with the matching spotifyId', async () => {
+      const user1 = await User.create(getUser())
+      const user2 = await User.create(getUser())
+      const response = await request(server).get(
+        `/api/users/${user1.spotifyId}`
+      )
+      expect(response.statusCode).to.equal(200)
+      expect(response.body.spotifyId).to.equal(user1.spotifyId)
+    })
+  })
+
   describe('GET api/users', () => {
     it('returns all users', async () => {
       const user1 = await User.create(getUser())

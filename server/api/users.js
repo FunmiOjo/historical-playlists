@@ -1,6 +1,14 @@
 const router = require('express').Router()
 const { User } = require('../../db/models')
 
+router.get('/:spotifyId', async (req, res, next) => {
+  try {
+    res.send(await User.findBySpotifyId(req.params.spotifyId))
+  } catch (error) {
+    next(error)
+  }
+})
+
 router.get('/', async (req, res, next) => {
   try {
     res.send(await User.getAllUsers())
