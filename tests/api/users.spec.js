@@ -5,8 +5,8 @@ const db = require('../../db')
 const { User } = require('../../db/models')
 const { getUser } = require('../utils')
 
-describe.only('User routes', () => {
-  beforeEach(() => db.sync({ force: true }))
+describe('User routes', () => {
+  beforeEach(async () => await db.sync({ force: true }))
 
   describe('GET api/users/:spotifyId', () => {
     it('returns the with the matching spotifyId', async () => {

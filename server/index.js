@@ -2,10 +2,22 @@ const express = require('express')
 const app = express()
 const morgan = require('morgan')
 const path = require('path')
-
+const passport = require('passport')
+const db = require('../db')
 const addMiddleware = () => {
-  // logging
-  app.use(morgan('dev'))
+  // auth middleware
+
+  passport.serializeUser((user, done) => done(null, user.id))
+
+  passport.deserializeUser(async (id, done) => {
+    try {
+      const user = await db.models.user.findById(id)
+      done(null, user)
+    } catch (err) {
+      done(err)
+    }
+  })
+  app.use(passport.initialize())
 
   // parsing
   app.use(express.json())
@@ -13,8 +25,12 @@ const addMiddleware = () => {
 
   // routes
   app.use('/api', require('./api'))
+  app.use('/auth', require('./auth'))
 
   // static files
+  app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'public/login.html'))
+  })
   app.use(express.static(path.join(__dirname, '..', 'public')))
   app.use('*', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public/index.html'))
